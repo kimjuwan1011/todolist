@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>오늘의 할 일 (To‑Do Calendar)</title>
+    <meta name="description" content="캘린더에서 날짜를 선택하고 날짜별 할 일을 관리하세요." />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div class="brand">
+          <div class="brand__title">오늘의 할 일</div>
+          <div class="brand__subtitle"></div>
+        </div>
+        <div class="status">
+          <div id="statusText" class="status__text">대기 중</div>
+          <button id="retryBtn" class="btn btn--ghost" type="button" hidden>다시 시도</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="card calendar" aria-label="캘린더">
+          <div class="calendar__toolbar">
+            <button id="prevMonthBtn" class="btn btn--ghost" type="button" aria-label="이전 달">‹</button>
+            <div class="calendar__title">
+              <div id="monthLabel" class="calendar__month">—</div>
+              <div class="calendar__hint" id="todayHint">오늘: —</div>
+            </div>
+            <button id="nextMonthBtn" class="btn btn--ghost" type="button" aria-label="다음 달">›</button>
+          </div>
+
+          <div class="calendar__weekdays" aria-hidden="true">
+            <div class="weekday">일</div>
+            <div class="weekday">월</div>
+            <div class="weekday">화</div>
+            <div class="weekday">수</div>
+            <div class="weekday">목</div>
+            <div class="weekday">금</div>
+            <div class="weekday">토</div>
+          </div>
+
+          <div id="calendarGrid" class="calendar__grid" role="grid" aria-label="월 캘린더"></div>
+        </section>
+
+        <section class="card panel" aria-label="선택한 날짜의 할 일">
+          <div class="panel__header">
+            <div>
+              <div class="panel__title">할 일</div>
+              <div id="selectedDateLabel" class="panel__date">—</div>
+            </div>
+            <button id="jumpTodayBtn" class="btn btn--ghost" type="button">오늘로</button>
+          </div>
+
+          <form id="todoForm" class="todoForm" autocomplete="off">
+            <label class="srOnly" for="todoInput">할 일 입력</label>
+            <input
+              id="todoInput"
+              class="input"
+              type="text"
+              maxlength="80"
+              placeholder="할 일을 입력하세요"
+              required
+            />
+            <button class="btn btn--primary" type="submit">추가</button>
+          </form>
+
+          <div class="panel__meta">
+            <div id="todoCount" class="metaText">0개</div>
+            <div id="errorBox" class="errorBox" hidden></div>
+          </div>
+
+          <div id="loadingRow" class="loadingRow" hidden>
+            <div class="spinner" aria-hidden="true"></div>
+            <div>불러오는 중…</div>
+          </div>
+
+          <ul id="todoList" class="todoList" aria-label="할 일 목록"></ul>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <details class="help">
+          <summary>Firebase 연결 방법</summary>
+          <ol>
+            <li>Firebase 콘솔에서 프로젝트 생성 → Firestore Database 활성화</li>
+            <li>웹 앱 추가 후 제공되는 설정값을 <code>firebase.js</code>에 넣기</li>
+            <li>개발용(로그인 없음)이라면 보안 규칙을 아래처럼 설정</li>
+          </ol>
+          <pre class="codeBlock"><code>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /todos/{dateId} {
+      allow read, write: if dateId.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}</code></pre>
+          <p class="help__warn">
+            위 규칙은 <strong>연습용</strong>입니다. 공개 배포 시에는 인증/권한을 꼭 추가하세요.
+          </p>
+        </details>
+      </footer>
+    </div>
+
+    <!-- Firebase SDK (v10+) via ES Modules (import map) -->
+    <script type="importmap">
+      {
+        "imports": {
+          "firebase/app": "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js",
+          "firebase/firestore": "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js",
+          "firebase/analytics": "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js"
+        }
+      }
+    </script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
