@@ -309,15 +309,6 @@ code {
   max-width: 70%;
 }
 
-.spinner {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.18);
-  border-top-color: rgba(124, 92, 255, 0.9);
-  animation: spin 900ms linear infinite;
-}
-
 @keyframes spin {
   to {
     transform: rotate(360deg);
