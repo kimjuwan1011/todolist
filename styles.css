@@ -309,15 +309,6 @@ code {
   max-width: 70%;
 }
 
-.loadingRow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  color: var(--muted);
-  padding: 6px 2px;
-}
-
 .spinner {
   width: 16px;
   height: 16px;
